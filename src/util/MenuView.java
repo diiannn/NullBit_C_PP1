@@ -12,12 +12,12 @@ public class MenuView {
         System.out.println("╔═════════════════════════════════╗");
         System.out.println("║        MENU UTAMA SALON         ║");
         System.out.println("╠═════════════════════════════════╣");
-        System.out.println("║ 1.  Tambah Daftar Antrian       ║");
+        System.out.println("║ 1. Tambah Daftar Antrian        ║");
         System.out.println("║ 2. Panggil Pelanggan Berikutnya ║");
         System.out.println("║ 3. Lihat Antrian Selanjutnya    ║");
         System.out.println("║ 4. Tampilkan Semua Antrian      ║");
         System.out.println("║ 5. Lihat Daftar Layanan         ║");
-        System.out.println("║ 6. Lihat Status Kapster         ║");
+        System.out.println("║ 6. Lihat Status Karyawan        ║");
         System.out.println("║ 7. Keluar                       ║");
         System.out.println("╚═════════════════════════════════╝");
 

@@ -16,10 +16,8 @@ public class AntrianSalonMain {
         daftarLayanan.add(new LayananSalon("L4", "Smoothing/Rebonding", "Rambut", 150000, 120));
 
         List<Karyawan> daftarKaryawan = new ArrayList<>();
-        daftarKaryawan.add(new Karyawan("K1", "Dina", "Potong Rambut"));
-        daftarKaryawan.add(new Karyawan("K2", "Sari", "Cuci Blow"));
-        daftarKaryawan.add(new Karyawan("K3", "Rina", "Pewarnaan Rambut"));
-        daftarKaryawan.add(new Karyawan("K4", "Risa", "Smoothing/Rebonding")); // Perbaiki typo
+        daftarKaryawan.add(new Karyawan("K1", "Dina"));        // Tanpa parameter spesialis
+        daftarKaryawan.add(new Karyawan("K2", "Sari"));
 
         SalonQueue antrianSalon = new SalonQueue(10); // kapasitas antrian max 10
 
@@ -58,105 +56,33 @@ public class AntrianSalonMain {
                     }
                     break;
 
-                case 2: // Panggil / Ganti Pelanggan yang Sedang Dilayani
-                    // 1. Tampilkan karyawan yang sedang melayani pelanggan
-                    List<Karyawan> karyawanSibuk = new ArrayList<>();
-                    System.out.println("\n=== Karyawan yang sedang melayani pelanggan ===");
-                    int idx = 1;
-                    for (Karyawan k : daftarKaryawan) {
-                        if (!k.isTersedia()) {
-                            System.out.println(idx + ". " + k.getNamaKaryawan() + " melayani " + k.getSedangMelayani().getNama());
-                            karyawanSibuk.add(k);
-                            idx++;
-                        }
-                    }
+                case 2: // Panggil Pelanggan Berikutnya (dequeue)
+                    AntrianSalon dipanggil = antrianSalon.dequeue();
+                    if (dipanggil != null) {
+                        dipanggil.setStatus("sedang dilayani");
+                        Pelanggan pelangganDipanggil = dipanggil.getPelanggan();
+                        LayananSalon layananDipanggil = dipanggil.getLayanan();
 
-                    if (karyawanSibuk.isEmpty()) {
-                        System.out.println("Belum ada karyawan yang sedang melayani pelanggan.");
-                    } else {
-                        int pilihKaryawan = InputUtil.inputInt("Pilih karyawan yang sudah selesai melayani (0 untuk batal)");
-                        if (pilihKaryawan > 0 && pilihKaryawan <= karyawanSibuk.size()) {
-                            Karyawan selesai = karyawanSibuk.get(pilihKaryawan - 1);
-
-                            // Tandai karyawan selesai melayani
-                            System.out.println("Pelanggan " + selesai.getSedangMelayani().getNama() + " selesai dilayani oleh " + selesai.getNamaKaryawan());
-                            selesai.setTersedia(true);
-                            selesai.setSedangMelayani(null);
-
-                            // Cari pelanggan baru dari antrian yang cocok untuk karyawan ini
-                            AntrianSalon pelangganBaru = null;
-                            List<AntrianSalon> tempQueue = new ArrayList<>();
-
-                            while (!antrianSalon.isEmpty()) {
-                                AntrianSalon calon = antrianSalon.dequeue();
-                                if (calon.getLayanan().getNamaLayanan().equals(selesai.getSpesialis())) {
-                                    pelangganBaru = calon;
-                                    break;
-                                } else {
-                                    tempQueue.add(calon);
-                                }
-                            }
-
-                            // Kembalikan antrian yang tidak cocok ke antrian utama
-                            for (AntrianSalon a : tempQueue) {
-                                antrianSalon.enqueue(a);
-                            }
-
-                            if (pelangganBaru != null) {
-                                // Panggil pelanggan baru
-                                pelangganBaru.setStatus("sedang dilayani");
-                                selesai.setTersedia(false);
-                                selesai.setSedangMelayani(pelangganBaru.getPelanggan());
-
-                                System.out.println("Memanggil pelanggan baru: " + pelangganBaru.getPelanggan().getNama()
-                                        + " dengan layanan " + pelangganBaru.getLayanan().getNamaLayanan()
-                                        + ", dilayani oleh " + selesai.getNamaKaryawan());
-                            } else {
-                                System.out.println("Tidak ada pelanggan baru yang cocok dengan spesialis " + selesai.getSpesialis());
-                            }
-                        }
-                    }
-
-                    // 2. Panggil pelanggan baru untuk karyawan yang masih tersedia (jika ada)
-                    boolean adaDipanggil = false;
-                    List<AntrianSalon> tempQueue2 = new ArrayList<>();
-
-                    for (Karyawan k : daftarKaryawan) {
-                        if (k.isTersedia()) {
-                            AntrianSalon pelangganUntukKaryawan = null;
-
-                            while (!antrianSalon.isEmpty()) {
-                                AntrianSalon calon = antrianSalon.dequeue();
-                                if (calon.getLayanan().getNamaLayanan().equals(k.getSpesialis())) {
-                                    pelangganUntukKaryawan = calon;
-                                    break;
-                                } else {
-                                    tempQueue2.add(calon);
-                                }
-                            }
-
-                            // Kembalikan antrian yang tidak cocok ke antrian utama
-                            for (AntrianSalon a : tempQueue2) {
-                                antrianSalon.enqueue(a);
-                            }
-                            tempQueue2.clear();
-
-                            if (pelangganUntukKaryawan != null) {
-                                pelangganUntukKaryawan.setStatus("sedang dilayani");
+                        // Cari karyawan yang tersedia (tanpa spesialisasi)
+                        boolean ketemu = false;
+                        for (Karyawan k : daftarKaryawan) {
+                            if (k.isTersedia()) {  // Hanya cek tersedia atau tidak
                                 k.setTersedia(false);
-                                k.setSedangMelayani(pelangganUntukKaryawan.getPelanggan());
-
-                                System.out.println("Memanggil pelanggan: " + pelangganUntukKaryawan.getPelanggan().getNama()
-                                        + " dengan layanan " + pelangganUntukKaryawan.getLayanan().getNamaLayanan()
+                                k.setSedangMelayani(pelangganDipanggil);
+                                ketemu = true;
+                                System.out.println("Memanggil pelanggan: " + pelangganDipanggil.getNama()
+                                        + " dengan layanan " + layananDipanggil.getNamaLayanan()
                                         + ", dilayani oleh " + k.getNamaKaryawan());
-
-                                adaDipanggil = true;
+                                break;
                             }
                         }
-                    }
-
-                    if (!adaDipanggil) {
-                        System.out.println("Tidak ada pelanggan baru yang bisa dilayani saat ini.");
+                        if (!ketemu) {
+                            System.out.println("Maaf, semua karyawan sedang sibuk.");
+                            antrianSalon.enqueue(dipanggil);
+                            dipanggil.setStatus("menunggu");
+                        }
+                    } else {
+                        System.out.println("Tidak ada antrian.");
                     }
                     break;
 
@@ -183,7 +109,7 @@ public class AntrianSalonMain {
                     System.out.println("\n=== Status Karyawan ===");
                     for (int i = 0; i < daftarKaryawan.size(); i++) {
                         Karyawan k = daftarKaryawan.get(i);
-                        System.out.print((i + 1) + ". " + k.getNamaKaryawan() + " (Spesialis: " + k.getSpesialis() + ") ");
+                        System.out.print((i + 1) + ". " + k.getNamaKaryawan() + " ");  // Hapus bagian spesialis
 
                         if (k.isTersedia()) {
                             System.out.println("tersedia.");

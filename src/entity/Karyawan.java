@@ -1,4 +1,6 @@
-package Entity;
+package entity;
+
+import entity.Pelanggan;
 
 // Class Karyawan mewakili data seorang pegawai salon (kapster)
 public class Karyawan {
@@ -7,19 +9,15 @@ public class Karyawan {
     // namaKaryawan: nama lengkap karyawan
     // spesialis: layanan yang dikuasai oleh karyawan
     private String idKaryawan, namaKaryawan;
-
-    // Atribut tersedia menandakan apakah karyawan sedang tersedia untuk melayani pelanggan
-    private boolean tersedia;
-
-    // Atribut pelangganAktif menyimpan informasi pelanggan yang sedang dilayani saat ini (jika ada)
-    private Pelanggan pelangganAktif; // Tambahan untuk menyimpan pelanggan yang sedang dilayani
+    private boolean tersedia;  // Atribut tersedia menandakan apakah karyawan sedang tersedia untuk melayani pelanggan
+    private Pelanggan sedangMelayani;
 
     // Konstruktor untuk menginisialisasi data karyawan baru dengan status tersedia
     public Karyawan(String idKaryawan, String namaKaryawan) {
         this.idKaryawan = idKaryawan;
         this.namaKaryawan = namaKaryawan;
         this.tersedia = true;
-        this.pelangganAktif = null;
+        this.sedangMelayani = null;
     }
 
     // Getter dan Setter untuk ID Karyawan
@@ -35,12 +33,12 @@ public class Karyawan {
     public void setTersedia(boolean tersedia) { this.tersedia = tersedia; }
 
     // Getter dan Setter untuk Pelanggan yang sedang dilayani
-    public Pelanggan getSedangMelayani() { return pelangganAktif; }
-    public void setSedangMelayani(Pelanggan pelanggan) { this.pelangganAktif = pelanggan; }
+    public Pelanggan getSedangMelayani() { return sedangMelayani; }
+    public void setSedangMelayani(Pelanggan pelanggan) { this.sedangMelayani = pelanggan; }
 
     // Override method toString untuk menampilkan nama dan spesialis karyawan
     @Override
     public String toString() {
-        return namaKaryawan + "(" + sedangMelayani + ")";
+        return namaKaryawan + "(" + sedangMelayani + ")";
     }
 }
