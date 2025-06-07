@@ -44,7 +44,7 @@ public class AntrianSalonMain {
                         }
 
                         LayananSalon layananDipilih = daftarLayananSalon[pilihanLayanan - 1];
-                        Pelanggan pelanggan = new Pelanggan(" " + namaPelanggan, layananDipilih);
+                        Pelanggan pelanggan = new Pelanggan("" + namaPelanggan, layananDipilih);
 
                         AntrianSalon antrianBaru = new AntrianSalon("A" + nomorAntrian, pelanggan, layananDipilih);
                         antrianSalon.enqueue(antrianBaru);

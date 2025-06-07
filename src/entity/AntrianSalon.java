@@ -36,8 +36,7 @@ public class AntrianSalon {
     public String getStatus() {
         return status;
     }
-
-
+    
     // Mengambil objek Pelanggan
     public Pelanggan getPelanggan() {
         return pelanggan;
