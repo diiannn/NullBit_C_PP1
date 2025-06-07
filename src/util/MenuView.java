@@ -26,7 +26,7 @@ public class MenuView {
 
     public static void displayLayanan() {
         System.out.println("\n╔════════════════════════════════════════════════════════╗");
-        System.out.println("║                    DAFTAR LAYANAN SALON                ║");
+        System.out.println("║                  DAFTAR LAYANAN SALON                  ║");
         System.out.println("╠════════════════════════════════════════════════════════╣");
         System.out.println("║ No │ Layanan              │ Harga    │ Waktu │ Kategori║");
         System.out.println("╠════════════════════════════════════════════════════════╣");

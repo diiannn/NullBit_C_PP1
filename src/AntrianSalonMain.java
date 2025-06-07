@@ -8,16 +8,15 @@ import java.util.List;
 
 public class AntrianSalonMain {
     public static void main(String[] args) {
-        // Buat daftar layanan salon (bisa dikembangkan lagi)
-        List<LayananSalon> daftarLayanan = new ArrayList<>();
-        daftarLayanan.add(new LayananSalon( "Potong Rambut"));
-        daftarLayanan.add(new LayananSalon( "Cuci Blow"));
-        daftarLayanan.add(new LayananSalon( "Pewarnaan Rambut"));
-        daftarLayanan.add(new LayananSalon("Smoothing/Rebonding"));
+        LayananSalon[] daftarLayananSalon = new LayananSalon[4];
+        daftarLayananSalon[0] = new LayananSalon("Potong Rambut");
+        daftarLayananSalon[1] = new LayananSalon("Cuci Blow");
+        daftarLayananSalon[2] = new LayananSalon( "Pewarnaan Rambut");
+        daftarLayananSalon[3] = new LayananSalon("Smoothing/Rebonding");
 
-        List<Karyawan> daftarKaryawan = new ArrayList<>();
-        daftarKaryawan.add(new Karyawan("K1", "Dina"));        // Tanpa parameter spesialis
-        daftarKaryawan.add(new Karyawan("K2", "Sari"));
+        Karyawan[] daftarKaryawan = new Karyawan[2];
+        daftarKaryawan[0] = new Karyawan("k1", "Dina");
+        daftarKaryawan[1] = new Karyawan("k2", "Sari");
 
         SalonQueue antrianSalon = new SalonQueue(10); // kapasitas antrian max 10
 
@@ -39,13 +38,13 @@ public class AntrianSalonMain {
                         MenuView.displayLayanan();
                         int pilihanLayanan = InputUtil.inputInt("Pilih nomor layanan");
 
-                        if (pilihanLayanan < 1 || pilihanLayanan > daftarLayanan.size()) {
+                        if (pilihanLayanan < 1 || pilihanLayanan > daftarLayananSalon.length) {
                             System.out.println("Pilihan layanan tidak valid!");
                             continue;  // ulang input nama dan layanan
                         }
 
-                        LayananSalon layananDipilih = daftarLayanan.get(pilihanLayanan - 1);
-                        Pelanggan pelanggan = new Pelanggan("P" + nomorAntrian, namaPelanggan, layananDipilih);
+                        LayananSalon layananDipilih = daftarLayananSalon[pilihanLayanan - 1];
+                        Pelanggan pelanggan = new Pelanggan(" " + namaPelanggan, layananDipilih);
 
                         AntrianSalon antrianBaru = new AntrianSalon("A" + nomorAntrian, pelanggan, layananDipilih);
                         antrianSalon.enqueue(antrianBaru);
@@ -107,8 +106,8 @@ public class AntrianSalonMain {
 
                 case 6: // Lihat Status Karyawan
                     System.out.println("\n=== Status Karyawan ===");
-                    for (int i = 0; i < daftarKaryawan.size(); i++) {
-                        Karyawan k = daftarKaryawan.get(i);
+                    for (int i = 0; i < daftarKaryawan.length; i++) {
+                        Karyawan k = daftarKaryawan[i];
                         System.out.print((i + 1) + ". " + k.getNamaKaryawan() + " ");  // Hapus bagian spesialis
 
                         if (k.isTersedia()) {

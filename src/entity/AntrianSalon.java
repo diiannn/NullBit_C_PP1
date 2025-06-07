@@ -10,11 +10,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class AntrianSalon {
 
-    // Atribut utama: nomor antrian dan statusnya (menunggu, sedang dilayani, selesai, batal)
+    // Atribut utama: nomor antrian dan statusnya (menunggu, sedang dilayani)
     private String noAntrian, status;
-
-    // Waktu saat pelanggan masuk ke antrian
-    private LocalDateTime waktuMasukAntrian;
 
     // Objek pelanggan yang sedang mengantri
     private Pelanggan pelanggan;
@@ -27,16 +24,8 @@ public class AntrianSalon {
         this.noAntrian = noAntrian;
         this.pelanggan = pelanggan;
         this.layanan = layanan;
-        this.waktuMasukAntrian = LocalDateTime.now(); // waktu dicatat otomatis saat dibuat
         this.status = "menunggu"; // status default
     }
-
-    // Mengembalikan waktu masuk antrian dalam format HH:mm:ss (jam:menit:detik)
-    public String getWaktuMasukAntrianFormatted() {
-        return waktuMasukAntrian.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-    }
-
-    // ====================== Getter ======================
 
     // Mengambil nilai nomor antrian
     public String getNoAntrian() {
@@ -48,10 +37,6 @@ public class AntrianSalon {
         return status;
     }
 
-    // Mengambil waktu masuk antrian dalam bentuk objek LocalDateTime
-    public LocalDateTime getWaktuMasukAntrian() {
-        return waktuMasukAntrian;
-    }
 
     // Mengambil objek Pelanggan
     public Pelanggan getPelanggan() {
@@ -63,30 +48,9 @@ public class AntrianSalon {
         return layanan;
     }
 
-    // ====================== Setter ======================
-
-    // Mengatur nomor antrian
-    public void setNoAntrian(String noAntrian) {
-        this.noAntrian = noAntrian;
-    }
-
     // Mengatur status antrian (menunggu, sedang dilayani, selesai, dll)
     public void setStatus(String status) {
         this.status = status;
     }
 
-    // Mengatur ulang waktu masuk antrian
-    public void setWaktuMasukAntrian(LocalDateTime waktuMasukAntrian) {
-        this.waktuMasukAntrian = waktuMasukAntrian;
-    }
-
-    // Mengatur objek Pelanggan
-    public void setPelanggan(Pelanggan pelanggan) {
-        this.pelanggan = pelanggan;
-    }
-
-    // Mengatur objek LayananSalon
-    public void setLayanan(LayananSalon layanan) {
-        this.layanan = layanan;
-    }
 }
