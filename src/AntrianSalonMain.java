@@ -10,10 +10,10 @@ public class AntrianSalonMain {
     public static void main(String[] args) {
         // Buat daftar layanan salon (bisa dikembangkan lagi)
         List<LayananSalon> daftarLayanan = new ArrayList<>();
-        daftarLayanan.add(new LayananSalon("L1", "Potong Rambut", "Rambut", 25000, 30));
-        daftarLayanan.add(new LayananSalon("L2", "Cuci Blow", "Rambut", 35000, 45));
-        daftarLayanan.add(new LayananSalon("L3", "Pewarnaan Rambut", "Rambut", 80000, 90));
-        daftarLayanan.add(new LayananSalon("L4", "Smoothing/Rebonding", "Rambut", 150000, 120));
+        daftarLayanan.add(new LayananSalon( "Potong Rambut"));
+        daftarLayanan.add(new LayananSalon( "Cuci Blow"));
+        daftarLayanan.add(new LayananSalon( "Pewarnaan Rambut"));
+        daftarLayanan.add(new LayananSalon("Smoothing/Rebonding"));
 
         List<Karyawan> daftarKaryawan = new ArrayList<>();
         daftarKaryawan.add(new Karyawan("K1", "Dina"));        // Tanpa parameter spesialis
