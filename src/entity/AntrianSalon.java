@@ -47,23 +47,7 @@ public class AntrianSalon {
 
     // ====================== Setter ======================
 
-    // Mengatur nomor antrian
-    public void setNoAntrian(String noAntrian) {
-        this.noAntrian = noAntrian;
-    }
-
     // Mengatur status antrian (menunggu, sedang dilayani)
     public void setStatus(String status) {
         this.status = status;
     }
-
-    // Mengatur objek Pelanggan
-    public void setPelanggan(Pelanggan pelanggan) {
-        this.pelanggan = pelanggan;
-    }
-
-    // Mengatur objek LayananSalon
-    public void setLayanan(LayananSalon layanan) {
-        this.layanan = layanan;
-    }
-}
