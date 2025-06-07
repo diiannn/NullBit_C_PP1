@@ -133,8 +133,6 @@ public class AntrianSalonMain {
             }
 
             InputUtil.tekanEnterUntukLanjut();
-            //System.out.println("\nTekan enter untuk melanjutkan...");
-//            InputUtil.inputString("");
         }
     }
 }
