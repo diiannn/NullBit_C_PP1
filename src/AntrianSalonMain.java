@@ -54,32 +54,34 @@ public class AntrianSalonMain {
                     break;
 
                 case 2: // Panggil Pelanggan Berikutnya (dequeue)
-                    AntrianSalon dipanggil = antrianSalon.dequeue();
-                    if (dipanggil != null) {
-                        dipanggil.setStatus("sedang dilayani");
-                        Pelanggan pelangganDipanggil = dipanggil.getPelanggan();
-                        LayananSalon layananDipanggil = dipanggil.getLayanan();
-
-                        // Cari karyawan yang tersedia (tanpa spesialisasi)
-                        boolean ketemu = false;
-                        for (Karyawan k : daftarKaryawan) {
-                            if (k.isTersedia()) {  // Hanya cek tersedia atau tidak
-                                k.setTersedia(false);
-                                k.setSedangMelayani(pelangganDipanggil);
-                                ketemu = true;
-                                System.out.println("Memanggil pelanggan: " + pelangganDipanggil.getNama()
-                                        + " dengan layanan " + layananDipanggil.getNamaLayanan()
-                                        + ", dilayani oleh " + k.getNamaKaryawan());
-                                break;
-                            }
+                    Karyawan availableKaryawan = null;
+                    for (Karyawan k : daftarKaryawan) {
+                        if (k.isTersedia()) {
+                            availableKaryawan = k;
+                            break;
                         }
-                        if (!ketemu) {
-                            System.out.println("Maaf, semua karyawan sedang sibuk.");
-                            antrianSalon.enqueue(dipanggil);
-                            dipanggil.setStatus("menunggu");
+                    }
+
+                    if (availableKaryawan != null) {
+                        AntrianSalon dipanggil = antrianSalon.peek();
+                        if (dipanggil != null) {
+                            dipanggil.setStatus("sedang dilayani");
+                            Pelanggan pelangganDipanggil = dipanggil.getPelanggan();
+                            LayananSalon layananDipanggil = dipanggil.getLayanan();
+
+                            availableKaryawan.setTersedia(false);
+                            availableKaryawan.setSedangMelayani(pelangganDipanggil);
+
+                            antrianSalon.dequeue();
+
+                            System.out.println("Memanggil pelanggan: " + pelangganDipanggil.getNama()
+                                    + " dengan layanan " + layananDipanggil.getNamaLayanan()
+                                    + ", dilayani oleh " + availableKaryawan.getNamaKaryawan());
+                        } else {
+                            System.out.println("Tidak ada antrian.");
                         }
                     } else {
-                        System.out.println("Tidak ada antrian.");
+                        System.out.println("Maaf, semua karyawan sedang sibuk");
                     }
                     break;
 
