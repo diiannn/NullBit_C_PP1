@@ -1,4 +1,5 @@
 package util;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class InputUtil {
@@ -21,6 +22,13 @@ public class InputUtil {
     public static String inputString(String info) {
         System.out.print(info + " :");
         return scanner.nextLine();
+    }
+
+    public static boolean inputBoolean(String info) {
+        System.out.print(info + " (y/n) :");
+        String input = scanner.nextLine().toLowerCase(Locale.ROOT); // toLowercase digunakan agar ketika kita memasukkan huruf kecil atau besar tetap bisa kebaca
+        return input.equals("y") || input.equals("yes") || input.equals("ya");
+//        return input.equals("y") ? true : false;
     }
 
     public static void tekanEnterUntukLanjut() {

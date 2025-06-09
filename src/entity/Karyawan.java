@@ -20,13 +20,8 @@ public class Karyawan {
         this.sedangMelayani = null;
     }
 
-    // Getter dan Setter untuk ID Karyawan
-    public String getIdKaryawan() { return idKaryawan; }
-    public void setIdKapster(String idKapster) { this.idKaryawan = idKapster; }
-
     // Getter dan Setter untuk Nama Karyawan
     public String getNamaKaryawan() { return namaKaryawan; }
-    public void setNamaKaryawan(String namaKapster) { this.namaKaryawan = namaKapster; }
 
     // Getter dan Setter untuk Status Ketersediaan
     public boolean isTersedia() { return tersedia; }

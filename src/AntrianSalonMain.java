@@ -8,16 +8,15 @@ import java.util.List;
 
 public class AntrianSalonMain {
     public static void main(String[] args) {
-        // Buat daftar layanan salon (bisa dikembangkan lagi)
-        List<LayananSalon> daftarLayanan = new ArrayList<>();
-        daftarLayanan.add(new LayananSalon( "Potong Rambut"));
-        daftarLayanan.add(new LayananSalon( "Cuci Blow"));
-        daftarLayanan.add(new LayananSalon( "Pewarnaan Rambut"));
-        daftarLayanan.add(new LayananSalon("Smoothing/Rebonding"));
+        LayananSalon[] daftarLayananSalon = new LayananSalon[4];
+        daftarLayananSalon[0] = new LayananSalon("Potong Rambut");
+        daftarLayananSalon[1] = new LayananSalon("Cuci Blow");
+        daftarLayananSalon[2] = new LayananSalon( "Pewarnaan Rambut");
+        daftarLayananSalon[3] = new LayananSalon("Smoothing/Rebonding"); // Perbaikan di sini, sebelumnya ada typo
 
-        List<Karyawan> daftarKaryawan = new ArrayList<>();
-        daftarKaryawan.add(new Karyawan("K1", "Dina"));        // Tanpa parameter spesialis
-        daftarKaryawan.add(new Karyawan("K2", "Sari"));
+        Karyawan[] daftarKaryawan = new Karyawan[2];
+        daftarKaryawan[0] = new Karyawan("k1", "Dina");
+        daftarKaryawan[1] = new Karyawan("k2", "Sari");
 
         SalonQueue antrianSalon = new SalonQueue(10); // kapasitas antrian max 10
 
@@ -28,7 +27,7 @@ public class AntrianSalonMain {
             int pilihan = MenuView.displayMenuUtama();
 
             switch (pilihan) {
-                case 1: // Daftar Antrian (enqueue)
+                case 1: // Tambah Daftar Antrian (enqueue)
                     while (true) {
                         String namaPelanggan = InputUtil.inputString("Masukkan nama pelanggan (ketik 'done' untuk selesai)");
                         if (namaPelanggan.equalsIgnoreCase("done")) {
@@ -39,18 +38,16 @@ public class AntrianSalonMain {
                         MenuView.displayLayanan();
                         int pilihanLayanan = InputUtil.inputInt("Pilih nomor layanan");
 
-                        if (pilihanLayanan < 1 || pilihanLayanan > daftarLayanan.size()) {
+                        if (pilihanLayanan < 1 || pilihanLayanan > daftarLayananSalon.length) {
                             System.out.println("Pilihan layanan tidak valid!");
-                            continue;  // ulang input nama dan layanan
+                            continue; //ulang input nama dan layanan`
                         }
 
-                        LayananSalon layananDipilih = daftarLayanan.get(pilihanLayanan - 1);
-                        Pelanggan pelanggan = new Pelanggan("P" + nomorAntrian, namaPelanggan, layananDipilih);
+                        LayananSalon layananDipilih = daftarLayananSalon[pilihanLayanan - 1];
+                        Pelanggan pelanggan = new Pelanggan("" + namaPelanggan, layananDipilih);
 
                         AntrianSalon antrianBaru = new AntrianSalon("A" + nomorAntrian, pelanggan, layananDipilih);
                         antrianSalon.enqueue(antrianBaru);
-
-//                        System.out.println("Pelanggan " + namaPelanggan + " ditambahkan ke antrian dengan nomor A" + nomorAntrian);
 
                         nomorAntrian++;
                     }
@@ -105,22 +102,57 @@ public class AntrianSalonMain {
                     MenuView.displayLayanan();
                     break;
 
-                case 6: // Lihat Status Karyawan
+                case 6: // Lihat Status Karyawan DAN Selesaikan Layanan
                     System.out.println("\n=== Status Karyawan ===");
-                    for (int i = 0; i < daftarKaryawan.size(); i++) {
-                        Karyawan k = daftarKaryawan.get(i);
-                        System.out.print((i + 1) + ". " + k.getNamaKaryawan() + " ");  // Hapus bagian spesialis
+                    boolean adaKaryawanSibuk = false;
+                    for (int i = 0; i < daftarKaryawan.length; i++) {
+                        Karyawan k = daftarKaryawan[i];
+                        System.out.print((i + 1) + ". " + k.getNamaKaryawan() + " ");
 
                         if (k.isTersedia()) {
                             System.out.println("tersedia.");
                         } else {
+                            adaKaryawanSibuk = true;
                             Pelanggan p = k.getSedangMelayani();
                             if (p != null) {
                                 System.out.println("sedang melayani pelanggan: " + p.getNama() + ".");
                             } else {
-                                System.out.println("tidak tersedia.");
+                                System.out.println("tidak tersedia"); // Ini perbaikan typo dari sebelumnya
                             }
                         }
+                    }
+
+                    if (adaKaryawanSibuk) {
+                        boolean konfirmasiSelesai = InputUtil.inputBoolean("Apakah ada karyawan yang sudah selesai melayani?");
+                        if (konfirmasiSelesai) {
+                            System.out.println("\n--- Tandai Karyawan Selesai ---");
+                            for (int i = 0; i < daftarKaryawan.length; i++) {
+                                Karyawan k = daftarKaryawan[i];
+                                if (!k.isTersedia()) {
+                                    Pelanggan p = k.getSedangMelayani();
+                                    System.out.println((i + 1) + ". " + k.getNamaKaryawan() + " - Sedang melayani: " + (p != null ? p.getNama() : "Tidak diketahui"));
+                                }
+                            }
+                            int pilihanKaryawanSelesai = InputUtil.inputInt("Pilih nomor karyawan yang selesai melayani");
+                            if (pilihanKaryawanSelesai >= 1 && pilihanKaryawanSelesai <= daftarKaryawan.length) {
+                                Karyawan karyawanSelesai = daftarKaryawan[pilihanKaryawanSelesai - 1];
+                                if (!karyawanSelesai.isTersedia()) {
+                                    Pelanggan pelangganSelesai = karyawanSelesai.getSedangMelayani();
+                                    System.out.println("Layanan untuk pelanggan " + pelangganSelesai.getNama() + " oleh " + karyawanSelesai.getNamaKaryawan() + " telah selesai.");
+
+                                    karyawanSelesai.setTersedia(true);
+                                    karyawanSelesai.setSedangMelayani(null);
+
+                                    System.out.println("Karyawan " + karyawanSelesai.getNamaKaryawan() + " kini tersedia.");
+                                } else {
+                                    System.out.println("Karyawan tersebut sudah tersedia atau tidak sedang melayani siapa pun.");
+                                }
+                            } else {
+                                System.out.println("Pilihan karyawan tidak valid.");
+                            }
+                        }
+                    } else {
+                        System.out.println("Semua karyawan tersedia. Tidak ada layanan yang perlu diselesaikan.");
                     }
                     break;
 
@@ -134,8 +166,6 @@ public class AntrianSalonMain {
             }
 
             InputUtil.tekanEnterUntukLanjut();
-            //System.out.println("\nTekan enter untuk melanjutkan...");
-//            InputUtil.inputString("");
         }
     }
 }
