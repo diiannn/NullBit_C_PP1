@@ -1,5 +1,9 @@
 package entity;
 
+// Import untuk menangani tanggal dan waktu
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Class AntrianSalon merepresentasikan satu entri dalam antrian pelanggan salon.
  * Setiap entri berisi nomor antrian, waktu masuk, status, pelanggan, dan layanan.
@@ -17,13 +21,11 @@ public class AntrianSalon {
 
     // Konstruktor: membuat objek antrian baru saat pelanggan mendaftar
     public AntrianSalon(String noAntrian, Pelanggan pelanggan, LayananSalon layanan) {
-        this.noAntrian = noAntrian; // Inisialisasi nomor antrian
-        this.pelanggan = pelanggan; // Menyimpan referensi ke objek pelanggan
-        this.layanan = layanan;     // Menyimpan layanan yang dipilih
-        this.status = "menunggu";   // Status default saat pendaftaran
+        this.noAntrian = noAntrian;
+        this.pelanggan = pelanggan;
+        this.layanan = layanan;
+        this.status = "menunggu"; // status default
     }
-
-    // ====================== Getter ======================
 
     // Mengambil nilai nomor antrian
     public String getNoAntrian() {
@@ -34,7 +36,7 @@ public class AntrianSalon {
     public String getStatus() {
         return status;
     }
-
+    
     // Mengambil objek Pelanggan
     public Pelanggan getPelanggan() {
         return pelanggan;
@@ -45,25 +47,9 @@ public class AntrianSalon {
         return layanan;
     }
 
-    // ====================== Setter ======================
-
-    // Mengatur nomor antrian
-    public void setNoAntrian(String noAntrian) {
-        this.noAntrian = noAntrian;
-    }
-
-    // Mengatur status antrian (menunggu, sedang dilayani)
+    // Mengatur status antrian (menunggu, sedang dilayani, selesai, dll)
     public void setStatus(String status) {
         this.status = status;
     }
 
-    // Mengatur objek Pelanggan
-    public void setPelanggan(Pelanggan pelanggan) {
-        this.pelanggan = pelanggan;
-    }
-
-    // Mengatur objek LayananSalon
-    public void setLayanan(LayananSalon layanan) {
-        this.layanan = layanan;
-    }
 }
